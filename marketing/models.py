@@ -1,15 +1,14 @@
 from django.db import models
-
-# Create your models here.
+from purchase.models import Supplier_Detail
 class Customer_Detail(models.Model):
     Customer_id = models.CharField(primary_key=True,max_length=60)
     Customer_name = models.CharField(max_length=100)
     Nick_name = models.CharField(max_length=30)
-    Contact = models.CharField(max_length = 50,default = None)
     Email_id = models.EmailField(default = None)
     Address = models.TextField()
     GST_no = models.CharField(max_length=30)
     CIN_no = models.CharField(max_length=30)
+    Email_id = models.EmailField(default = 'abc@gmail.com')
     Date = models.DateField(default = None,null=True)
     Time = models.TimeField(default = None,null=True)
     def __str__(self):
@@ -18,7 +17,8 @@ class Customer_Detail(models.Model):
 
 
 class Individual_Detail(models.Model):
-    Customer_detail = models.ForeignKey(Customer_Detail, on_delete=models.CASCADE)
+    Customer_detail = models.ForeignKey(Customer_Detail, on_delete=models.CASCADE,default=None)
+    Supplier_detail = models.ForeignKey(Supplier_Detail, on_delete=models.CASCADE,default=None)
     Name = models.CharField(max_length=30)
     Designation = models.CharField(max_length=30)
     Email_id = models.EmailField()

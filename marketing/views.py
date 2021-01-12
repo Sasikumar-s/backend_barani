@@ -19,6 +19,7 @@ class Customer_Detail_View(ModelViewSet):
         try:
             query_object = Customer_Detail.objects.create(Customer_id=query['Customer_id'],Customer_name = query['Customer_name'],
                                                           Nick_name = query['Nick_name'], Address = query['Address'],
+                                                            Email_id = query['Email_id'],
                                                           GST_no = query['GST_no'], CIN_no = query['CIN_no'], Date = now().strftime("%Y-%m-%d"),
                                                           Time = now().strftime("%H:%M:%S")
                                                       )
@@ -37,19 +38,20 @@ class Individual_Detail_View(ModelViewSet):
         query = Individual_Detail.objects.all()
         return query
     def create(self, request, *args, **kwargs):
-        query = request.data
-        print(query)
-        try:
-            query_object = Individual_Detail.objects.create(Customer_detail  = Customer_Detail.objects.get(Customer_id = query['Customer_detail' ]),
+        query1 = request.data
+        for query in query1:
+            print(query)
+            try:
+                query_object = Individual_Detail.objects.create(Customer_detail  = Customer_Detail.objects.get(Customer_id = query['Customer_detail']),
                                                      Name= query['Name'], Designation = query['Designation'],
                                                             Email_id = query['Email_id'],Contact = query['Contact'],
                                                       Date = now().strftime("%Y-%m-%d"),
                                                       Time = now().strftime("%H:%M:%S") )
-            query_object.save()
-            return Response("Succesfully Done!!!",status=HTTP_200_OK)
+                query_object.save()
+                return Response("Succesfully Done!!!",status=HTTP_200_OK)
 
-        except:
-            return  Response("Unable to Done!!!", status= HTTP_400_BAD_REQUEST )
+            except:
+                return  Response("Unable to Done!!!", status= HTTP_400_BAD_REQUEST )
 
 
 
